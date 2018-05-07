@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <!-- 与文件夹同级的文件夹下的文件 -->
+    <script src="/jquery.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    <title>修改</title>
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        header {
+            background-color: #eee;
+            height: 6rem;
+        }
+        header h1 {
+            font-size: 1.5em;
+        }
+        .tooler {
+            padding: 10px 5px;
+        }
+        a.ends {
+            color: white;
+        }
+        a.ends:active {
+            color: white;
+            text-decoration: none;
+        }
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin: 10px -10px;
+            width: 600px;
+        }
+        tr {
+            width: 100%;
+        }
+        td,th {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        a {
+            margin-right: 10px;
+            cursor: pointer;
+            color: gray;
+        }
+        .tops {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-brand">学生信息管理系统</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">首页</a></li>
+                    <li class="active"><a href="#">学生管理</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="container">
+            <h1>修改学生信息</h1>
+        </div>
+    </header>
+    <div class="container tops">
+        <form class="form-horizontal" role="form" action="/api/update/{{id}}" method="POST">
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">姓名：</label>
+                <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="请输入姓名" name="name" value="{{name}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">年龄：</label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="age" value="{{age}}">
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">联系方式：</label>
+                <div class="col-sm-2">
+                <input type="text" class="form-control" placeholder="请输入手机号" name="phone" value="{{phone}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">邮箱：</label>
+                <div class="col-sm-2">
+                <input type="email" class="form-control" placeholder="请输入邮箱" name="email" value="{{email}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">个人介绍：</label>
+                <div class="col-sm-5">
+                <textarea class="form-control" rows="3" name="introduce">{{introduce}}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" class="btn btn-success" value="提交">
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- <form action="/api/update/{{id}}" method="POST">
+        <input type="text" name="name" value="{{name}}"><br><br>
+        <input type="number" name="age" value="{{age}}"><br><br>
+        <input type="text" name="grade" value="{{grade}}"><br><br>
+        <input type="submit" value="修改">
+    </form> -->
+</body>
+</html>

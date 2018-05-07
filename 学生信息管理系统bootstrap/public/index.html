@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <!-- 与文件夹同级的文件夹下的文件 -->
+    <script src="jquery.min.js"></script>
+    <script src="template.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <title>学生信息管理系统</title>
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        header {
+            background-color: #eee;
+            height: 6rem;
+        }
+        header h1 {
+            font-size: 1.5em;
+        }
+        .tooler {
+            padding: 10px 5px;
+        }
+        a.ends {
+            color: white;
+        }
+        a.ends:active {
+            color: white;
+            text-decoration: none;
+        }
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin: 10px -10px;
+            width: 600px;
+        }
+        tr {
+            width: 100%;
+        }
+        td,th {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        a {
+            margin-right: 10px;
+            cursor: pointer;
+            color: gray;
+        }
+        .pages {
+            display: flex;
+            justify-content: flex-end;
+        }
+        #searchBody{
+            height: 150px;
+        }
+        #searchBody .form-group input{
+           margin-top: 20px;
+        }
+        #searchBody .form-group label{
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-brand">学生信息管理系统</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">首页</a></li>
+                    <li class="active"><a href="#">学生管理</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="container">
+            <h1>学生查询及管理</h1>
+        </div>
+    </header>
+    <div class="container tooler">
+        <button class="btn btn-success" onclick="location.href='add.html'">
+            <!-- <a href="add.html" target="_blank" class="ends">添加学生</a> -->添加学生
+        </button>
+        <button class="btn btn-warning" data-toggle="modal" data-target="#searchModal">
+            <span class="glyphicon glyphicon-search"></span>搜索
+        </button>
+    </div>
+
+    <div class="container" id="infos"></div>
+    <script id="template" type="text/html">
+        <table class="table table-bordered table-hover">
+            <tr class="active">
+                <th style="width: 10%">姓名</th>
+                <th style="width: 10%">年龄</th>
+                <th style="width: 20%">联系方式</th>
+                <th style="width: 30%">邮箱</th>
+                <th style="width: 15%">修改</th>
+                <th style="width: 15%">删除</th>
+            </tr>
+           {{each datas as search i}}
+              <tr id="{{search.name}}" data-id="{{search._id}}">
+                  <td>{{search.name}}</td>
+                  <td>{{search.age}}</td>
+                  <td>{{search.phone}}</td>
+                  <td>{{search.email}}</td>
+                  <td><a href="/update/{{search._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                  <td><a href="" data-toggle="modal" data-target="#myModal" onclick="gets(this)"><span class="glyphicon glyphicon-trash"></span></a></td>
+              </tr>
+           {{/each}}
+            {{each data as item i}}
+            <tr id="{{item.name}}" data-id="{{item._id}}">
+                <td>{{item.name}}</td>
+                <td>{{item.age}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.email}}</td>
+                <td><a href="/update/{{item._id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                <td><a href="" data-toggle="modal" data-target="#myModal" onclick="gets(this)"><span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+            {{/each}}
+            <!-- 模态框 -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">确认要删除吗</h4>
+                        </div>
+                        <div class="modal-body" id="texts">点击确定将删除</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="del(this)">确定</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">学生信息搜索</h4>
+                        </div>
+                         <div class="modal-body" id="searchBody">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                  <label  class="col-sm-2 control-label">姓名</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" class="form-control"  placeholder="姓名" id="name">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label  class="col-sm-2 control-label">联系方式</label>
+                                  <div class="col-sm-10">
+                                    <input type="text" class="form-control"  placeholder="联系方式" id="phone">
+                                  </div>
+                                </div>
+                            </form>
+                         </div>                      
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" onclick="search()">搜索</button>
+                          </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </table>
+        
+        <div class="pages">
+            <a onclick="show({{page > 1 ? page - 1 : 1}})">上一页</a>
+            {{each pages as page i}}
+                <a onclick="show({{page}})" >{{page}}</a>
+            {{/each}}
+            <a onclick="show({{page < totalPage ? page + 1 : totalPage}})">下一页</a>
+        </div>
+    </script>
+    
+    <script>
+        var id;
+        show(1);
+        function show(page) {
+            $.get('/' + page, function(res) {
+                // console.log(res);
+                var html = template('template', res);
+                $('#infos').html(html);
+            })
+        };
+        function gets(e) {
+            id = $(e).parents('tr').data('id');
+            var name = $(e).parents('tr').attr('id');
+            $('#texts').text('点击确定将删除: ' + name)
+        }
+        function del(e) {
+            console.log(id);
+            $.post('/remove', {id: id}, function(res) {
+                if (res.result == 200) {
+                    location.href = '/'
+                } else {
+                    alert('删除失败:' + res.result);
+                }
+            })
+        };
+        
+      function search(){
+        var name = $('#name').val();
+            var phone = $('#phone').val();
+            $.post('/search',{name:name,phone:phone},function(res){
+                   console.log(res)
+               if(res.status==200){
+                   $('div.modal-backdrop').hide();
+                   var html = template('template', res);
+                   $('#infos').html(html);
+               }      
+            })      
+      }   
+    </script>
+</body>
+</html>
