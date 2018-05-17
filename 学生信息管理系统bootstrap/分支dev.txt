@@ -1,0 +1,5 @@
+this is branch content！
+Creating a new branch is quick & simple
+分支管理策略
+bug分支
+bug已经修改完成
